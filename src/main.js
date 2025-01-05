@@ -13,16 +13,18 @@ input.addEventListener("input", function (e) {
 });
 
 const toDoCreator = function () {
+  let toDo = { name: "", id: crypto.randomUUID() };
   let name = "";
   let id = crypto.randomUUID();
   let isDone = false;
 
+  const gettoDo = () => toDo;
   const getName = () => name;
   const setName = (value) => (name = value);
   const getId = () => id;
   const getIsDone = () => isDone;
   const changeStatus = (value) => (isDone = value);
-  return { getName, setName, getId, getIsDone, changeStatus };
+  return { gettoDo, getName, setName, getId, getIsDone, changeStatus };
 };
 
 const toDo = toDoCreator();
@@ -39,6 +41,10 @@ const toDoManager = toDoManagerCreator();
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
+
+  toDoManager.addToDos(toDoCreator());
+
+  toDoManager.getToDos().forEach((x) => console.log(x.gettoDo()));
 
   console.log(input.value);
 
