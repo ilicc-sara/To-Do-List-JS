@@ -13,21 +13,16 @@ input.addEventListener("input", function (e) {
 });
 
 const toDoCreator = function () {
-  let toDo = { name: "", id: crypto.randomUUID() };
-  let name = "";
-  let id = crypto.randomUUID();
-  let isDone = false;
+  let toDo = { id: crypto.randomUUID(), name: "", isDone: false };
 
-  const gettoDo = () => toDo;
-  const getName = () => name;
-  const setName = (value) => (name = value);
-  const getId = () => id;
-  const getIsDone = () => isDone;
-  const changeStatus = (value) => (isDone = value);
-  return { gettoDo, getName, setName, getId, getIsDone, changeStatus };
+  const getToDo = () => toDo;
+  const getName = () => toDo.name;
+  const editName = (value) => (toDo.name = value);
+  const getId = () => toDo.id;
+  const getIsDone = () => toDo.isDone;
+  const changeStatus = (value) => (toDo.isDone = value);
+  return { getToDo, getName, editName, getId, getIsDone, changeStatus };
 };
-
-const toDo = toDoCreator();
 
 const toDoManagerCreator = function () {
   let toDos = [];
@@ -41,15 +36,45 @@ const toDoManager = toDoManagerCreator();
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
+  const toDo = toDoCreator();
+  toDo.editName(input.value);
+  console.log(toDo.getToDo());
+  toDoManager.addToDos(toDo);
 
-  toDoManager.addToDos(toDoCreator());
+  // toDoManager.getToDos().forEach((x) => console.log(x.gettoDo()));
 
-  toDoManager.getToDos().forEach((x) => console.log(x.gettoDo()));
-
-  console.log(input.value);
+  console.log(toDoManager.getToDos());
 
   const toDoEl = document.createElement("li");
-  toDoEl.textContent = input.value;
+
+  toDoEl.innerHTML = `${input.value} <div class="btn-cont"><button class="btn-done">DONE</button><button class="btn-del">DELETE</button></div>`;
+
+  toDoEl.setAttribute("data-id", toDo.getId());
   listContainer.appendChild(toDoEl).className = "to-do";
   input.value = "";
+});
+
+listContainer.addEventListener("click", function (e) {
+  if (
+    !e.target.classList.contains("btn-done") &&
+    !e.target.classList.contains("btn-del")
+  )
+    return;
+
+  if (e.target.classList.contains("btn-done")) {
+    // prettier-ignore
+    let targetEl = toDoManager.getToDos().find(item => item.getId() === e.target.closest(".to-do").getAttribute("data-id"));
+    console.log(targetEl.changeStatus(true));
+
+    toDoManager.getToDos().forEach((item) => console.log(item.getToDo()));
+    e.target.style.backgroundColor = "gray";
+  } else {
+    // prettier-ignore
+    let index = toDoManager.getToDos().find(item => item.getToDo().id === e.target.closest(".to-do").getAttribute("data-id"));
+    toDoManager.getToDos().splice(index, 1);
+    toDoManager.getToDos().forEach((item) => console.log(item.getToDo()));
+
+    let deleteEL = e.target.closest(".to-do");
+    deleteEL.remove();
+  }
 });
