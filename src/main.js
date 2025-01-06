@@ -50,18 +50,18 @@ listContainer.addEventListener("click", function (e) {
 
   if (e.target.classList.contains("btn-done")) {
     // prettier-ignore
-    let targetEl = toDoManager.getToDos().find(item => item.getId() === e.target.closest(".to-do").getAttribute("data-id"));
+    const targetEl = toDoManager.getToDos().find(item => item.getId() === e.target.closest(".to-do").getAttribute("data-id"));
     console.log(targetEl.changeStatus(true));
 
     toDoManager.getToDos().forEach((item) => console.log(item.getToDo()));
     e.target.style.backgroundColor = "gray";
   } else {
     // prettier-ignore
-    let index = toDoManager.getToDos().find(item => item.getToDo().id === e.target.closest(".to-do").getAttribute("data-id"));
+    const index = toDoManager.getToDos().find(item => item.getToDo().id === e.target.closest(".to-do").getAttribute("data-id"));
     toDoManager.getToDos().splice(index, 1);
     toDoManager.getToDos().forEach((item) => console.log(item.getToDo()));
 
-    let deleteEL = e.target.closest(".to-do");
+    const deleteEL = e.target.closest(".to-do");
     deleteEL.remove();
   }
 });
