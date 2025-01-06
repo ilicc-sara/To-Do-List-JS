@@ -3,14 +3,7 @@ import "./style.css";
 
 const input = document.querySelector(".input-name");
 const form = document.querySelector(".form");
-
-const container = document.querySelector(".container");
-
 const listContainer = document.querySelector(".todo-list");
-
-input.addEventListener("input", function (e) {
-  // console.log(input.value);
-});
 
 const toDoCreator = function () {
   let toDo = { id: crypto.randomUUID(), name: "", isDone: false };
@@ -41,14 +34,8 @@ form.addEventListener("submit", function (e) {
   console.log(toDo.getToDo());
   toDoManager.addToDos(toDo);
 
-  // toDoManager.getToDos().forEach((x) => console.log(x.gettoDo()));
-
-  console.log(toDoManager.getToDos());
-
   const toDoEl = document.createElement("li");
-
   toDoEl.innerHTML = `${input.value} <div class="btn-cont"><button class="btn-done">DONE</button><button class="btn-del">DELETE</button></div>`;
-
   toDoEl.setAttribute("data-id", toDo.getId());
   listContainer.appendChild(toDoEl).className = "to-do";
   input.value = "";
