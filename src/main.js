@@ -55,6 +55,8 @@ listContainer.addEventListener("click", function (e) {
 
     toDoManager.getToDos().forEach((item) => console.log(item.getToDo()));
     e.target.style.backgroundColor = "gray";
+
+    e.target.closest(".to-do").style.textDecoration = "line-through";
   } else {
     // prettier-ignore
     const index = toDoManager.getToDos().find(item => item.getToDo().id === e.target.closest(".to-do").getAttribute("data-id"));
