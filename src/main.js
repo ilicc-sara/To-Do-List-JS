@@ -59,7 +59,7 @@ listContainer.addEventListener("click", function (e) {
     e.target.closest(".to-do").style.textDecoration = "line-through";
   } else {
     // prettier-ignore
-    const index = toDoManager.getToDos().find(item => item.getToDo().id === e.target.closest(".to-do").getAttribute("data-id"));
+    const index = toDoManager.getToDos().findIndex(item => item.getToDo().id === e.target.closest(".to-do").getAttribute("data-id"));
     toDoManager.getToDos().splice(index, 1);
     toDoManager.getToDos().forEach((item) => console.log(item.getToDo()));
 
